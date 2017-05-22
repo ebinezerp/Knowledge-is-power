@@ -1,0 +1,34 @@
+<div class='container-fluid' ng-controller="BlogController as blogCtrl">
+  
+<button class="btn btn-info" ng-click="blogCtrl.button('newBlogdiv')" ng-hide="blogCtrl.newBlogdiv"> New Blog</button>
+<button class="btn btn-info" ng-click="blogCtrl.button('allBlogsdiv')" ng-hide="blogCtrl.allBlogsdiv"> All Blogs</button>
+    <div class='row' ng-show="blogCtrl.allBlogsdiv">
+        
+
+       <div ng-repeat="blog in blogCtrl.allBlogs">
+        <h2> <a href ng-click="blogLink(blog.blogId)"> <b>  {{blog.blogTitle}}</b></a></h2>
+         <h5> <a href ng-click="blogAuthor(blog.blogId)">{{blog.signature}}</a></h5>
+       </div>
+
+    </div>
+    <div class='row' ng-show="blogCtrl.newBlogdiv">
+        <div class='col-sm-12'>
+            <form novalidate class="form" name="BlogForm" ng-submit="blogCtrl.newBlog()">
+                <div class="form-group">
+                    <label for="blogTitle">Blog Title</label>
+                    <input class="form-control" type="text" name='blogTitle' id='blogTitle' ng-model="blogCtrl.blog.blogTitle" required min="1" max="50">                                
+               </div>
+               <div class="form-group">
+                   <label for="blogDescription"> Blog Description</label>
+                   <textarea class="form-control" name='blogDescription' id='blogDescription' ng-model="blogCtrl.blog.blogDescription" required/>
+               </div>
+               <div class="form-group">
+                   <label for="signature">Signature</label>
+                   <input class="form-control" name='signature' id="signature" ng-model="blogCtrl.blog.signature" required/>
+               </div>
+             <center>  <input type="submit" class="btn btn-info" value="Submit"></center>
+            </form>
+        </div>
+    </div>
+    
+</div>

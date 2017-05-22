@@ -1,0 +1,104 @@
+
+
+<div class="container-fluid" ng-controller="JobController as jobCtrl">
+   
+        <button ng-click="jobCtrl.createjob()" >Add New JOB</button>
+        <div class='row'>
+            
+         <div class='jobsdiv' dir-paginate="job in jobs|itemsPerPage:5">
+                <h1>{{job.companyName}}</h1>
+                <h3>{{job.jobTitle}}</h3> 
+                <hr>         
+         </div>
+         <dir-pagination-controls
+    [max-size=""]
+    [direction-links=""]
+    [boundary-links=""]
+    [on-page-change=""]
+    [pagination-id=""]
+    [template-url=""]
+    [auto-hide=""]>
+    </dir-pagination-controls>
+        </div>
+      <div class='row' ng-show="newjob">
+        <div class='col-sm-2'></div>
+        <div class='col-sm-8'>
+            <form class='form' name='jobform' method="post" enctype="multipart/form-data" ng-submit="jobCtrl.addJob()">
+            <div class='row'>
+            <div class='col-sm-6'>
+             <div class='form-group'>
+                 <label for='ComapnyName'>Company Name</label>
+                 <input class='form-control' type="text" name="companyName" id='companyName' ng-model='jobCtrl.job.companyName' />
+             </div>
+
+            </div>
+            <div class='col-sm-6'>
+             <div class='form-group'>
+                 <label for='ComapnyJobId'>Company Job Id</label>
+                 <input class='form-control' type="text" name="companyId" id='companyJobId' ng-model='jobCtrl.job.companyJobId'/>
+             </div>
+
+            </div>
+            </div>
+            <div class='row'>
+                 <div class='col-sm-12'>
+             <div class='form-group'>
+                 <label for='jobTitle'>Job Titile</label>
+                 <input class='form-control' type="text" name="jobTitle" id='jobTitle' ng-model='jobCtrl.job.jobTitle'/>
+             </div>
+
+            </div>
+            </div>
+              <div class='row'>
+                 <div class='col-sm-12'>
+             <div class='form-group'>
+                 <label for='jobDescription'>Job Description</label>
+                 <textarea class='form-control'  name="jobDescription" id='jobDescription' ng-model='jobCtrl.job.jobDescription' rows='20'/>
+             </div>
+
+            </div>
+            </div>
+            <div class='row'>
+                 <div class='col-sm-12'>
+             <div class='form-group'>
+                 <label for='Qualification'>Qualification</label>
+                 <textarea class='form-control'  name="qualification" id='qualification' ng-model='jobCtrl.job.qualification' rows='8'/>
+             </div>
+
+            </div>
+            </div>
+             <div class='row'>
+                 <div class='col-sm-6'>
+             <div class='form-group'>
+                 <label for='salary' >Salary</label>
+                 <input type='text' class='form-control'  name="salary" id='salary' ng-model='jobCtrl.job.salary' rows='8'/>
+             </div>
+                 </div>
+                     <div class='col-sm-6'>
+             <div class='form-group'>
+                 <label for='salary' >Interview Date</label>
+                 <input type='date' class='form-control'  name="interviewDate" id='interviewDate' ng-model='jobCtrl.job.interviewDate' rows='8'/>
+             </div>
+                 </div>
+
+            
+            </div>
+            
+            <div class='row'>
+            <div class='col-sm-6'>
+                <input type="file" file-model='jobCtrl.job.companyLogo' name="companyLogo" ng-model='jobCtrl.job.comapnyLogo' class='form-control'/>
+            </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+            <div class="col-sm-12">
+               <center> <input type='submit' value="Submit" class='btn btn-primary' /></center>
+            </div>
+            </div>
+
+            </form>
+        </div>
+        <div class='col-sm-2'></div>
+    </div>
+</div>

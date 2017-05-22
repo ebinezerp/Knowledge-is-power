@@ -1,0 +1,19 @@
+.leftside
+{
+    min-height: 100%;
+    height: auto;
+    margin-top: -20px;
+    padding: 0px;
+    background-color:dimgrey;
+}
+.stdnavbar li
+{
+   color:white;
+    font:bold;
+    list-style-type: none;
+}
+.stdnavbar li h4 img
+{
+    width:30px;
+    height: 30px;
+}
