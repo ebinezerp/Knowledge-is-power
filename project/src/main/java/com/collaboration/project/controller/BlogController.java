@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,6 +22,7 @@ import com.collaboration.project.dao.BlogDao;
 import com.collaboration.project.dao.UsersDao;
 import com.collaboration.project.model.Blog;
 import com.collaboration.project.model.Users;
+import com.collaboration.project.service.MailServices;
 
 @Controller
 public class BlogController {
@@ -30,11 +32,14 @@ public class BlogController {
 	
 	@Autowired
 	UsersDao usersDao;
+	@Autowired
+	MailServices mailServices;
 	
 	@RequestMapping("/blog/{id}")
 	public ResponseEntity<Map<String, String>> saveBlog(@RequestBody @Valid Blog blog,BindingResult result,@PathVariable Integer id)
 	{
 		System.out.println("User id in verify method::::::::"+id);
+		System.out.println(blog.getStatus());
 		Map<String, String> map=new HashMap<String, String>();
 		if(result.hasErrors())
 		{
@@ -49,6 +54,16 @@ public class BlogController {
 		}
 		
 		 Users user=usersDao.getUser(id);
+		 System.out.println("user role::::::::::::::"+user.getRole());
+		 System.out.println(user.getRole().toString().equals("admin"));
+		 if(user.getRole().toString().equals("admin"))
+		 {
+			 System.out.println("entering into if block as user amdin");
+			 blog.setStatus("approved");
+		 }else
+		 {
+			 blog.setStatus("pending");
+		 }
 		 blog.setUsers(user);
 		 
 		 blogDao.saveBlog(blog);
@@ -64,4 +79,15 @@ public class BlogController {
 		return new ResponseEntity<List<Blog>>(blogDao.getAll(), HttpStatus.OK);
 	}
 
+	
+	@PostMapping("/update/{id}/{status}")
+	public ResponseEntity<List<Blog>> update(@PathVariable Integer id,@PathVariable String status)
+	{
+		Blog blog=blogDao.getBlog(id);
+		 blog.setStatus(status);
+		 blogDao.updateBlog(blog);
+		 mailServices.sendMailForBlog(blog);
+		  
+		return new ResponseEntity<List<Blog>>(blogDao.getAll(), HttpStatus.OK);
+	}
 }

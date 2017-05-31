@@ -1,14 +1,30 @@
 <div class='container-fluid' ng-controller="BlogController as blogCtrl">
-  
-<button class="btn btn-info" ng-click="blogCtrl.button('newBlogdiv')" ng-hide="blogCtrl.newBlogdiv"> New Blog</button>
-<button class="btn btn-info" ng-click="blogCtrl.button('allBlogsdiv')" ng-hide="blogCtrl.allBlogsdiv"> All Blogs</button>
-    <div class='row' ng-show="blogCtrl.allBlogsdiv">
+  <div ng-hide="indiblog">
+<button class="btn btn-info" ng-click="blogCtrl.button(true)" ng-hide="blogCtrl.newBlogdiv"> New Blog</button>
+<button class="btn btn-info" ng-click="blogCtrl.button(false)" ng-show="blogCtrl.newBlogdiv"> All Blogs</button>
+    <div class='row' ng-hide="blogCtrl.newBlogdiv">
         
-
-       <div ng-repeat="blog in blogCtrl.allBlogs">
-        <h2> <a href ng-click="blogLink(blog.blogId)"> <b>  {{blog.blogTitle}}</b></a></h2>
-         <h5> <a href ng-click="blogAuthor(blog.blogId)">{{blog.signature}}</a></h5>
+         
+       <div  dir-paginate="blog in blogCtrl.allBlogs|itemsPerPage:5|orderBy:'-blogId'">
+          
+           <div ng-hide="currentUser.role!='admin' && (blog.status=='pending' || blog.status=='decline')">
+        <h2> <a href ng-click="blogCtrl.blogLink(blog.blogId)"> <b>  {{blog.blogTitle}}</b></a></h2>
+         <h5> <a href ng-click="blogCtrl.blogAuthor(blog.blogId)">{{blog.signature}}</a></h5>
+         <div ng-show="currentUser.role=='admin'">
+          <a href ng-click="blogCtrl.decision('approved',blog.blogId)" class="btn btn-success" ng-show="blog.status=='pending'">Approve</a>
+          <a href ng-click="blogCtrl.decision('decline',blog.blogId)" class="btn btn-danger" ng-show="blog.status=='pending'">Decline</a>
+         </div>
+           </div>
        </div>
+         <dir-pagination-controls
+    [max-size=""]
+    [direction-links=""]
+    [boundary-links=""]
+    [on-page-change=""]
+    [pagination-id=""]
+    [template-url=""]
+    [auto-hide=""]>
+    </dir-pagination-controls>
 
     </div>
     <div class='row' ng-show="blogCtrl.newBlogdiv">
@@ -26,9 +42,13 @@
                    <label for="signature">Signature</label>
                    <input class="form-control" name='signature' id="signature" ng-model="blogCtrl.blog.signature" required/>
                </div>
+               <input type="hidden" name="status" id="status" ng-model="blogCtrl.blog.status" value="pending" required/>
              <center>  <input type="submit" class="btn btn-info" value="Submit"></center>
             </form>
         </div>
     </div>
-    
+  </div>
+    <div ng-show="indiblog">
+                <div ng-include="'./app/pages/student/indivisualblog.html'"></div>
+    </div>
 </div>

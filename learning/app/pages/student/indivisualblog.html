@@ -1,0 +1,30 @@
+<div ng-controller="BlogController as blogCtrl">
+    <button class="btn btn-primary" ng-click="blogCtrl.backToAllBlogs()">All Blogs</button>
+<div>
+ <div  ng-repeat="blog in blogCtrl.allBlogs">
+          <div  ng-show="blog.blogId==indiblogId">
+              <div ng-init="blogCtrl.currentBlogId=blog.blogId"></div>
+           <div ng-hide="currentUser.role!='admin' && (blog.status=='pending' || blog.status=='decline')">
+        <h2> <a href ng-click="blogCtrl.blogLink(blog.blogId)"> <b>  {{blog.blogTitle}}</b></a></h2>
+        <h6> {{blog.blogDescription}}</h6>
+         <h5> <a href ng-click="blogCtrl.blogAuthor(blog.blogId)">{{blog.signature}}</a></h5>
+           </div>
+           </div>
+
+           
+</div>
+
+
+<div ng-controller="CommentsController as cmtCtrl">
+    <h4>Post Comment</h4>
+     {{currentUser.userName}}
+  <form novalidate ng-submit="cmtCtrl.postComment()">
+      
+       <input type="text" ng-init="cmtCtrl.comments.users=currentUser.userId"  >
+       <input type="text" ng-init="cmtCtrl.comments.blog=blogCtrl.currentBlogId" ng-value="blogCtrl.currentBlogId">
+
+       <input type="submit" value="Post" class="btn btn-primary">
+       
+  </form>
+</div>
+</div>

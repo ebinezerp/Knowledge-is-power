@@ -1,5 +1,5 @@
 var LoginModule=angular.module('LoginModule',['ngRoute','ngCookies']);
-LoginModule.controller('LoginController',function(LoginService,$rootScope,$cookies,$location){
+LoginModule.controller('LoginController',function(LoginService,$rootScope,$cookies,$location,$cookieStore){
   this.user={};
   var login=this;
  this.userrole='';
@@ -9,11 +9,14 @@ LoginModule.controller('LoginController',function(LoginService,$rootScope,$cooki
       LoginService.login(login.user).then(
           function(response)
           {
-              
-             
+                          
                 console.log(response);
+                console.log("hellooooo"+response.data);
+                console.log('testing'+response.data.role);
                 $cookies.put('authentiated',true);
-                $cookies.put('currentUserId',response.data.userId);
+                $cookieStore.put('currentUser',response.data);
+                $rootScope.currentStore=$cookieStore.get('currentUser');
+
                 $rootScope.authentiated=true;
                if(response.data.role=='admin')
                 {
@@ -30,7 +33,7 @@ LoginModule.controller('LoginController',function(LoginService,$rootScope,$cooki
               {
                  $cookies.put('role',response.data.role);
                  $rootScope.userrole=$cookies.get('role');
-                 $location.path('/home')
+                 $location.path('/student')
               }else
             {
                  $cookies.put('role', response.data.role);

@@ -27,8 +27,8 @@
     </dir-pagination-controls>
         </div>
     </div>
-    <div ng-show="stdCtrl.tab=='blogdiv'">
-           this is blog division
+    <div ng-show="stdCtrl.tab=='blogdiv'" ng-controller="BlogController as blogCtrl">
+           <div ng-include="'./app/pages/admin/blog.html'"></div>
     </div>
 <div ng-show="stdCtrl.tab=='profilediv'">
     

@@ -8,13 +8,15 @@ var app=angular.module('Learning',[
     'StudentModule',
     'VerificationModule',
     'BlogModule',
+    'ProfileModule',
+    'CommentsModule',
     'angularUtils.directives.dirPagination'
     
 ]);
 
 var app=angular.module('Learning');
 
-app.controller('HomeController',function($scope,$cookies,$route,$rootScope,$location){
+app.controller('HomeController',function($scope,$cookies,$route,$rootScope,$location,$cookieStore){
     $scope.name='ebinezer';
     this.name='ebinezer';
     $rootScope.userrole=$cookies.get('role');
@@ -25,6 +27,8 @@ app.controller('HomeController',function($scope,$cookies,$route,$rootScope,$loca
     {
         $cookies.remove('authentiated');
         $cookies.remove('role');
+        $cookieStore.remove('currentUser');
+        $rootScope.currentUser={};
         $rootScope.authentiated=false;
         $rootScope.userrole='';
         $route.reload();
@@ -77,6 +81,11 @@ $routeProvider.when("/home",{
 .when("/verification/:id",{
     templateUrl:'./app/pages/student/verification.html',
     controller:'verificationController'
+})
+.when("/indiblog/:id",{
+    templateUrl:'./app/pages/student/indivisualblog.html',
+    controller:'BlogController',
+    controllerAs:'blogCtrl'
 })
 .otherwise({
     redirect:'/index.html',

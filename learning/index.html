@@ -14,6 +14,8 @@
     <script src="./app/controller/StudentController.js"></script>
     <script src="./app/controller/VerificationController.js"></script>
     <script src="./app/controller/BlogController.js"></script>
+    <script src="./app/controller/ProfileController.js"></script>
+    <script src="./app/controller/CommentsController.js"></script>
     <script src="./app/controller/services/JobServices.js"></script>
     <script src="./app/controller/services/StudentServices.js"></script>
     <script src="./app/controller/services/BlogServices.js"></script>
@@ -53,10 +55,7 @@
 
 </div>
 <div class='content'>
-    <div ng-show="userrole=='student'" ng-controller="StudentController as stdCtrl">
-     <div ng-include="'./app/pages/student/student.html'"></div>
-    </div>
-
+   
 <ng-view>
 
 
