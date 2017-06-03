@@ -50,6 +50,7 @@ BlogModule.service('BlogServices',function($http,$q,REST_URI){
 
     this.decision=function(status,id)
     {
+
         var deffered=$q.defer();
         $http.post(REST_URI+'update/'+id+'/'+status).then
         (
@@ -67,5 +68,25 @@ BlogModule.service('BlogServices',function($http,$q,REST_URI){
         );
         return deffered.promise;
         
+    }
+
+    this.BlogComments=function(blogid)
+    {
+        var deffered=$q.defer();
+        $http.get(REST_URI+'allcomments/'+blogid).then
+        (
+            function(success)
+            {
+                console.log(success);
+                deffered.resolve(success);
+            },
+            function(error)
+            {
+                console.log(error);
+                deffered.reject(error);
+            }
+        )
+        return deffered.promise;
+
     }
 })

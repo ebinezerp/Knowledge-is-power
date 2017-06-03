@@ -102,7 +102,13 @@ public class TestController {
 		System.out.println(result);
 		if(result)
 		{users=usersDao.getUserByEmail(users.getEmail());
+		    if(users.isVerified())
+		    {
 			return new ResponseEntity<Users>(users,HttpStatus.OK);
+		    }else
+		    {
+		    	return new ResponseEntity<Users>(users,HttpStatus.UNAUTHORIZED);
+		    }
 		}else
 		{
 			MyError er = new MyError(1,"Authentication failed");

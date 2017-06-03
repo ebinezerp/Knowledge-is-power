@@ -1,9 +1,9 @@
-<div ng-controller="BlogController as blogCtrl">
+<div>
     <button class="btn btn-primary" ng-click="blogCtrl.backToAllBlogs()">All Blogs</button>
 <div>
  <div  ng-repeat="blog in blogCtrl.allBlogs">
           <div  ng-show="blog.blogId==indiblogId">
-              <div ng-init="blogCtrl.currentBlogId=blog.blogId"></div>
+                     
            <div ng-hide="currentUser.role!='admin' && (blog.status=='pending' || blog.status=='decline')">
         <h2> <a href ng-click="blogCtrl.blogLink(blog.blogId)"> <b>  {{blog.blogTitle}}</b></a></h2>
         <h6> {{blog.blogDescription}}</h6>
@@ -14,17 +14,28 @@
            
 </div>
 
+<div ng-if="blogCtrl.commentsDiv">
+<div ng-controller="CommentsController as cmtCtrl" ng-init="cmtCtrl.blogComments(indiblogId)">
 
-<div ng-controller="CommentsController as cmtCtrl">
+  <h2>Blog Comments </h2>
+
+  <div ng-repeat="comment in allBlogComments">
+    
+    <div ng-show="comment.blog.blogId==indiblogId">
+      <h4>{{comment.users.firstName}}</h4>
+     <h6> {{comment.blogComment}}</h6>
+    </div>
+  </div>
+    
     <h4>Post Comment</h4>
      {{currentUser.userName}}
   <form novalidate ng-submit="cmtCtrl.postComment()">
       
-       <input type="text" ng-init="cmtCtrl.comments.users=currentUser.userId"  >
-       <input type="text" ng-init="cmtCtrl.comments.blog=blogCtrl.currentBlogId" ng-value="blogCtrl.currentBlogId">
+       <textarea ng-model="cmtCtrl.comments.blogComment" name="comment" />
 
        <input type="submit" value="Post" class="btn btn-primary">
        
   </form>
+</div>
 </div>
 </div>

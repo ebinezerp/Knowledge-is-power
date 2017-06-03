@@ -3,6 +3,7 @@ JobModule.controller('JobController',function(multipartFile,$location,$rootScope
     this.message="this is job controler";
     this.job={};
    var jobCtrl=this;
+   $rootScope.alljobsdiv=true;
    $rootScope.newjob=false;
   this.createjob=function()
     {

@@ -1,7 +1,7 @@
 
 
 <div class="container-fluid" ng-controller="JobController as jobCtrl">
-   
+   <div ng-show="alljobsdiv">
         <button ng-click="jobCtrl.createjob()" >Add New JOB</button>
         <div class='row'>
             
@@ -20,7 +20,10 @@
     [auto-hide=""]>
     </dir-pagination-controls>
         </div>
+   </div>
+   <div ng-hide="alljobsdiv">
       <div class='row' ng-show="newjob">
+          <button class="btn btn-warning" ng-click="jobCtrl.allBlogs()">All Jobs</button>
         <div class='col-sm-2'></div>
         <div class='col-sm-8'>
             <form class='form' name='jobform' method="post" enctype="multipart/form-data" ng-submit="jobCtrl.addJob()">
@@ -101,4 +104,5 @@
         </div>
         <div class='col-sm-2'></div>
     </div>
+   </div>
 </div>

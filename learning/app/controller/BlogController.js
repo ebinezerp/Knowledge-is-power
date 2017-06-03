@@ -3,10 +3,11 @@ BlogModule.controller('BlogController',function(BlogServices,$cookies,$rootScope
 {
     this.message="this is message blog controller";
 
-    $rootScope.currentBlog=''
+    
 
    var blogCtrl=this;
    $rootScope.indiblog=false;
+   blogCtrl.commentsDiv=false;
    blogCtrl.blog={};
    //$rootScope.currentUser={};
   $rootScope.currentUser=$cookieStore.get('currentUser');
@@ -43,6 +44,10 @@ BlogModule.controller('BlogController',function(BlogServices,$cookies,$rootScope
 {
     
     blogCtrl.newBlogdiv=button;
+    if(button==false)
+    {
+         blogCtrl.loaded=false;
+    }
     
     
 }
@@ -56,6 +61,7 @@ BlogModule.controller('BlogController',function(BlogServices,$cookies,$rootScope
          {
              console.log(response);
              blogCtrl.allBlogs=response.data;
+             $rootScope.AllBlogs=blogCtrl.allBlogs;
              console.log('all blogs array'+blogCtrl.allBlogs);
 
          },
@@ -91,12 +97,18 @@ blogCtrl.blogLink=function(blogId)
 {
     //$location.path('/indiblog/'+blogId);
     $rootScope.indiblog=true;
+    blogCtrl.loaded=true;
+    blogCtrl.commentsDiv=true;
     $rootScope.indiblogId=blogId;
+   
+     $cookies.put('indiblogId',blogId);
+    
 }
 
 blogCtrl.backToAllBlogs=function()
 {
     $rootScope.indiblog=false;
+    blogCtrl.commentsDiv=false;
 }
 
 })
