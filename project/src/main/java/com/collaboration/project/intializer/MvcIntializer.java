@@ -8,7 +8,9 @@ import javax.servlet.ServletRegistration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.collaboration.project.config.AppConfig;
 import com.collaboration.project.config.MvcConfig;
+import com.collaboration.project.config.WebSocketConfig;
 import com.collaboration.project.filter.CORSFilter;
 
 public class MvcIntializer extends AbstractAnnotationConfigDispatcherServletInitializer{
@@ -16,7 +18,7 @@ public class MvcIntializer extends AbstractAnnotationConfigDispatcherServletInit
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Class< ?>[] { AppConfig.class, WebSocketConfig.class };
 	}
 
 	@Override

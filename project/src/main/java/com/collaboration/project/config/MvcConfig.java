@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.mvc.WebContentInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;;
 @EnableWebMvc
 @Configuration
@@ -23,6 +24,16 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         return viewResolve;
     }
     
+    @Bean
+    public WebContentInterceptor webContentInterceptor() {
+      WebContentInterceptor interceptor = new WebContentInterceptor();
+      interceptor.setCacheSeconds(0);
+      interceptor.setUseExpiresHeader(true);
+      interceptor.setUseCacheControlHeader(true);
+      interceptor.setUseCacheControlNoStore(true);
+
+      return interceptor;
+    }
     // Use the DefaultServletHandlerConfigurer 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer){
