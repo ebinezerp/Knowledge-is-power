@@ -63,6 +63,7 @@ BlogModule.controller('BlogController',function(BlogServices,$cookies,$rootScope
              blogCtrl.allBlogs=response.data;
              $rootScope.AllBlogs=blogCtrl.allBlogs;
              console.log('all blogs array'+blogCtrl.allBlogs);
+             blogCtrl.newBlogdiv=false;
 
          },
          function(error)

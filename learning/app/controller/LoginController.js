@@ -33,6 +33,10 @@ LoginModule.controller('LoginController',function(LoginService,$rootScope,$cooki
               {
                  $cookies.put('role',response.data.role);
                  $rootScope.userrole=$cookies.get('role');
+                 if(response.status=='304')
+                 {
+                 $rootScope.notVerified=true;
+                 }
                  $location.path('/student')
               }else
             {
@@ -46,8 +50,12 @@ LoginModule.controller('LoginController',function(LoginService,$rootScope,$cooki
                 console.log(error);
                 if(error.status=='401')
                 {
-                    login.invalid='invalid credentials';
+                    login.invalid=true;
                 }
+                 if(error.status=='304')
+                 {
+                 login.notVerified=true;
+                 }
 
           }
       )

@@ -107,7 +107,7 @@ public class TestController {
 			return new ResponseEntity<Users>(users,HttpStatus.OK);
 		    }else
 		    {
-		    	return new ResponseEntity<Users>(users,HttpStatus.UNAUTHORIZED);
+		    	return new ResponseEntity<Users>(users,HttpStatus.NOT_MODIFIED);
 		    }
 		}else
 		{

@@ -4,8 +4,10 @@
 			<fieldset>
 				<h2>Please Sign In</h2>
 				
-				{{login.invalid}}
-				{{invalid}}
+				<h5 class="alert alert-warning" ng-show="login.invalid">invalid credentials</h5>
+				<h5 ng-show="login.notVerified" class="alert alert-warning">Email is not verified. Please verify your email from the from your email.</h5>
+				
+			     
 				<hr class="colorgraph">
 				<div class="form-group">
                     <input type="email" name="email" ng-model="login.user.email" id="email" class="form-control input-lg" placeholder="Email Address">

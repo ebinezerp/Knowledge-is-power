@@ -8,7 +8,7 @@
        <div  dir-paginate="blog in blogCtrl.allBlogs|itemsPerPage:5|orderBy:'-blogId'">
           
            <div ng-hide="currentUser.role!='admin' && (blog.status=='pending' || blog.status=='decline')">
-        <h2> <a href ng-click="blogCtrl.blogLink(blog.blogId)"> <b>  {{blog.blogTitle}}</b></a></h2>
+        <h2> <a href ng-click="blogCtrl.blogLink(blog.blogId)"> <b ng-style="blog.status=='decline' && {'color':'red'}">  {{blog.blogTitle}}</b></a></h2>
          <h5> <a href ng-click="blogCtrl.blogAuthor(blog.blogId)">{{blog.signature}}</a></h5>
          <div ng-show="currentUser.role=='admin'">
           <a href ng-click="blogCtrl.decision('approved',blog.blogId)" class="btn btn-success" ng-show="blog.status=='pending'">Approve</a>

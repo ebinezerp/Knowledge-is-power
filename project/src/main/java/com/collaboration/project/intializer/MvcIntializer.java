@@ -1,7 +1,11 @@
 package com.collaboration.project.intializer;
 
-import javax.servlet.Filter;
+import java.nio.charset.StandardCharsets;
 
+import javax.servlet.Filter;
+import javax.servlet.ServletRegistration;
+
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.collaboration.project.config.MvcConfig;
@@ -30,7 +34,16 @@ public class MvcIntializer extends AbstractAnnotationConfigDispatcherServletInit
 	@Override
 	protected Filter[] getServletFilters() {
 		// TODO Auto-generated method stub
-		return new Filter[] {new CORSFilter()};
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+	    characterEncodingFilter.setEncoding(StandardCharsets.UTF_8.name());
+		return new Filter[] {new CORSFilter(),characterEncodingFilter};
 	}
+	
+	
+	 @Override
+	  protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+	    registration.setInitParameter("dispatchOptionsRequest", "true");
+	    registration.setAsyncSupported(true);
+	  }
 
 }
