@@ -10,6 +10,7 @@ var app=angular.module('Learning',[
     'BlogModule',
     'ProfileModule',
     'CommentsModule',
+    'ChatModule',
     'angularUtils.directives.dirPagination'
     
 ]);
