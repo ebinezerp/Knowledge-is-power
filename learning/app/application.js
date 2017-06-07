@@ -10,6 +10,7 @@ var app=angular.module('Learning',[
     'BlogModule',
     'ProfileModule',
     'CommentsModule',
+    'FriendModule',
     'ChatModule',
     'angularUtils.directives.dirPagination'
     
@@ -70,11 +71,48 @@ $routeProvider.when("/home",{
     controllerAs:'tranCtrl'
 })
 .when("/admin",{
+    	resolve:{
+	  	  authentication:function($rootScope,$location,$cookieStore)
+	  		{
+                   $rootScope.currentUser=$cookieStore.get('currentUser');
+	  		  
+	  		  if($rootScope.currentUser==null){
+	  			  $location.path("/login");
+	  			
+	  		  }else
+	  			  {
+	  			      if($rootScope.currentUser.role!='admin')
+	  			    	  {
+	  			    	     
+	  			    	        $location.path("/login")
+	  			    	  }
+	  			  }
+	  		}
+	  		
+	  	},
     templateUrl:'./app/pages/admin.html',
     controller:'AdminController',
     controllerAs:'adminCtrl'
 })
 .when("/student",{
+    	resolve:{
+	  	  authentication:function($rootScope,$location,$cookieStore)
+	  		{
+	  		  $rootScope.currentUser=$cookieStore.get('currentUser');
+	  		  if($rootScope.currentUser==null){
+	  			  $location.path("/login");
+	  			
+	  		  }else
+	  			  {
+	  			      if($rootScope.currentUser.role!='student')
+	  			    	  {
+	  			    	     
+	  			    	        $location.path("/login")
+	  			    	  }
+	  			  }
+	  		}
+	  		
+	  	},
     templateUrl:'./app/pages/student/student.html',
     controller:'StudentController',
     controllerAs:'stdCtrl'
@@ -87,6 +125,12 @@ $routeProvider.when("/home",{
     templateUrl:'./app/pages/student/indivisualblog.html',
     controller:'BlogController',
     controllerAs:'blogCtrl'
+})
+.when("/chat",{
+    templateUrl:'./app/pages/student/chat.html',
+    controller:'ChatCtrl',
+    controllerAs:"ChatCtrl"
+    
 })
 .otherwise({
     redirect:'/index.html',

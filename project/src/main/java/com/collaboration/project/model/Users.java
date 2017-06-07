@@ -14,8 +14,12 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Users implements Serializable{
@@ -48,8 +52,20 @@ public class Users implements Serializable{
 	private String cpassword;
 
 	private boolean verified;
-	@OneToMany(mappedBy="users",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy="users",cascade=CascadeType.ALL)
 	private List<Blog> blogs;
+	
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="friend",fetch=FetchType.EAGER)
+	private List<Friends> friends;
+
+	public List<Friends> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(List<Friends> friends) {
+		this.friends = friends;
+	}
 
 	public List<Blog> getBlogs() {
 		return blogs;

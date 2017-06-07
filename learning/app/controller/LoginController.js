@@ -15,7 +15,7 @@ LoginModule.controller('LoginController',function(LoginService,$rootScope,$cooki
                 console.log('testing'+response.data.role);
                 $cookies.put('authentiated',true);
                 $cookieStore.put('currentUser',response.data);
-                $rootScope.currentStore=$cookieStore.get('currentUser');
+                $rootScope.currentUser=$cookieStore.get('currentUser');
 
                 $rootScope.authentiated=true;
                if(response.data.role=='admin')

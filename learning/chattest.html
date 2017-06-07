@@ -1,0 +1,11 @@
+<script>
+ var socket=new SockJS("http://localhost:8090/project/chat");
+ console.log("socket in chattest"+socket);
+ console.log(JSON.stringify(socket));
+
+ socket.onopen=function()
+ {
+     console.log('socket is opened');
+ }
+
+</script>

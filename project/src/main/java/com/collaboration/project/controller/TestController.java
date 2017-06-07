@@ -40,6 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.collaboration.project.dao.JobDao;
 import com.collaboration.project.dao.UsersDao;
+import com.collaboration.project.model.Friends;
 import com.collaboration.project.model.Job;
 import com.collaboration.project.model.MyError;
 import com.collaboration.project.model.Users;
@@ -64,8 +65,12 @@ public class TestController {
 	@RequestMapping("/allusers")
 	public ResponseEntity<List<Users>> getAllusers()
 	{
-		System.out.println(usersDao.getAll());
-		return new ResponseEntity<List<Users>>(usersDao.getAll(),HttpStatus.OK);
+		List<Users> users=usersDao.getAll();
+		for(Users user:users)
+		{
+			System.out.println("size of the friends list"+user.getFriends().size());
+		}
+		return new ResponseEntity<List<Users>>(users,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/adduser",method=RequestMethod.POST)

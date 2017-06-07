@@ -2,80 +2,97 @@ var ChatModule=angular.module("ChatModule", []);
 
 
 
-ChatModule.controller("ChatCtrl", function($scope, ChatService) {
+ChatModule.controller("ChatCtrl", function($scope, chatFactory) {
   $scope.messages = [];
   $scope.message = "";
   $scope.max = 140;
 
   $scope.addMessage = function() {
-    ChatService.send($scope.message);
+    chatFactory.send($scope.message);
     $scope.message = "";
   };
 
-  ChatService.receive().then(null, null, function(message) {
+  chatFactory.receive().then(null, null, function(message) {
     $scope.messages.push(message);
   });
 });
 
 
-ChatModule.service("ChatService", function($q, $timeout,REST_URI) {
-    
-    var service = {}, listener = $q.defer(), socket = {
-      client: null,
-      stomp: null
-    }, messageIds = [];
-    
+ChatModule.factory('chatFactory', ['$http', '$q', 
+
+    function ($http, $q) {
+
+
+    var service = {}; 
+    var listener = $q.defer();
+    var socket = {
+        client: null,
+        stomp: null
+    }; 
+
     service.RECONNECT_TIMEOUT = 30000;
-    service.SOCKET_URL = REST_URI+"chat";
+    service.SOCKET_URL = "http://localhost:8090/project/chat";
     service.CHAT_TOPIC = "/topic/message";
-    service.CHAT_BROKER =REST_URI+ "app/chat";
+    service.CHAT_BROKER = "/app/chat";
+
+    service.send = sendMessage;
+    service.receive = receive; 
     
-    service.receive = function() {
-      return listener.promise;
+    function receive () {
+        //The only thing this function does is returning the deferred used to send messages at.
+        return listener.promise;
     };
-    
-    service.send = function(message) {
-      var id = Math.floor(Math.random() * 1000000);
-      socket.stomp.send(service.CHAT_BROKER, {
-        priority: 9
-      }, JSON.stringify({
-        message: message,
-        id: id
-      }));
-      messageIds.push(id);
+
+
+
+    function sendMessage(message) { 
+        //sends the message as a JSON object
+        //generates id
+        socket.stomp.send(service.CHAT_BROKER, {
+            priority: 9
+        }, JSON.stringify({
+            message: message,
+        }));
+    }
+
+     var reconnect = function () {
+        //When the connection to the Websocket server is lost, it will call the reconnect() function which will attempt to initialize the connection again after 30 seconds.
+        $timeout(function () {
+            initialize();
+        }, this.RECONNECT_TIMEOUT);
     };
-    
-    var reconnect = function() {
-      $timeout(function() {
-        initialize();
-      }, this.RECONNECT_TIMEOUT);
+
+
+
+    var getMessage = function (data) {
+        //will translate the Websocket data body to the model required by the controller.
+        var message = JSON.parse(data);
+        var out = {};
+        out.message = message.message;
+        out.time = new Date(message.time);
+        return out;
     };
-    
-    var getMessage = function(data) {
-      var message = JSON.parse(data), out = {};
-      out.message = message.message;
-      out.time = new Date(message.time);
-      if (_.contains(messageIds, message.id)) {
-        out.self = true;
-        messageIds = _.remove(messageIds, message.id);
-      }
-      return out;
+
+    var startListener = function () {
+        //will listen to the /topic/message topic on which all messages will be received
+        socket.stomp.subscribe(service.CHAT_TOPIC, function (data) {
+            listener.notify(getMessage(data.body));
+            //will then send the data to the deferred which will be used by the controllers
+        });
     };
-    
-    var startListener = function() {
-      socket.stomp.subscribe(service.CHAT_TOPIC, function(data) {
-        listener.notify(getMessage(data.body));
-      });
-    };
-    
+
     var initialize = function() {
-      socket.client = new SockJS(service.SOCKET_URL);
-      socket.stomp = Stomp.over(socket.client);
-      socket.stomp.connect({}, startListener);
-      console.log('connected to url');
-      socket.stomp.onclose = reconnect;
-    };
-    
+        //this is done for setting up the service.
+        socket.client = new SockJS(service.SOCKET_URL);
+        socket.stomp = Stomp.over(socket.client);
+        socket.stomp.connect({}, startListener);
+        socket.stomp.onclose = reconnect;
+        //will set up the SockJS Websocket client and use it for the Stomp.js websocket client.
+
+    }
+
     initialize();
-    return service;
-  });
+        
+    return service;   
+
+}])

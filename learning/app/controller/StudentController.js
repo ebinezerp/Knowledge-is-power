@@ -27,4 +27,12 @@ StudentModule.controller('StudentController',function(StudentServices){
         )
     }
      this.alljobs();
+
+this.jobProfile=function(jobid)
+{
+    stdCtrl.tab=''
+}
+
+
+
 })

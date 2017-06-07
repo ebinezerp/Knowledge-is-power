@@ -18,8 +18,8 @@ public class ChatController {
     
   @MessageMapping("/chat")
   @SendTo("/topic/message")
-  public OutputMessage sendMessage(Message message) {
-	  System.out.println(message);
+  public OutputMessage sendMessage( Message message) {
+	 // System.out.println(message);
     return new OutputMessage(message, new Date());
   }
 }

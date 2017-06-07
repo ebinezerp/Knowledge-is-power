@@ -156,17 +156,20 @@
     Client.prototype._transmit = function(command, headers, body) {
       var out;
       out = Frame.marshall(command, headers, body);
+     
       if (typeof this.debug === "function") {
         this.debug(">>> " + out);
       }
       while (true) {
         if (out.length > this.maxWebSocketFrameSize) {
+         
           this.ws.send(out.substring(0, this.maxWebSocketFrameSize));
           out = out.substring(this.maxWebSocketFrameSize);
           if (typeof this.debug === "function") {
             this.debug("remaining = " + out.length);
           }
         } else {
+         
           return this.ws.send(out);
         }
       }
@@ -369,6 +372,7 @@
     };
 
     Client.prototype.send = function(destination, headers, body) {
+     
       if (headers == null) {
         headers = {};
       }
@@ -380,6 +384,7 @@
     };
 
     Client.prototype.subscribe = function(destination, callback, headers) {
+      
       var client;
       if (headers == null) {
         headers = {};
@@ -477,7 +482,9 @@
       return new Client(ws);
     },
     over: function(ws) {
-      return new Client(ws);
+      var c=new Client(ws);
+    
+      return c;
     },
     Frame: Frame
   };
