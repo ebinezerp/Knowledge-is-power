@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.collaboration.project.dao.UsersDao;
 import com.collaboration.project.model.Users;
@@ -32,5 +33,14 @@ public class UsersController {
 			return new ResponseEntity<Void>(HttpStatus.EXPECTATION_FAILED);
 		}
 	}
+	
+	
+	@PostMapping("/updateUser")
+	public ResponseEntity<Users> updateUser(@RequestBody Users user)
+	{
+		usersDao.updateUser(user);
+		return new ResponseEntity<Users>(user,HttpStatus.OK);
+	}
+	
 
 }

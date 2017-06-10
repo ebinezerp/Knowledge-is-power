@@ -5,10 +5,11 @@
             <img class="card-bkimg" alt="" src="http://lorempixel.com/100/100/people/9/">
             <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
-        <div class="useravatar">
-            <img alt="" src="http://lorempixel.com/100/100/people/9/">
-        </div>
-        <div class="card-info"> <span class="card-title">Pamela Anderson</span>
+        <div class="useravatar" style="margin-bottom: 0%;padding-bottom: 0%;">
+            <img class="proImg" alt=""   src="http://enadcity.org/enadcity/wp-content/uploads/2017/02/profile-picture.png" err-src="http://enadcity.org/enadcity/wp-content/uploads/2017/02/profile-pictures.png">
+          </div>
+        <div style="position:relative;margin-top: 0%;padding-top: 0%;padding-bottom: 10px;"><button class="btn btn-info changeImage" ng-click="prfCtrl.changeImage()">Change Image</button></div>
+        <div class="card-info"> <span class="card-title">{{currentUser.userName}}</span>
 
         </div>
     </div>
@@ -34,7 +35,7 @@
       <div class="tab-content" ng-show="tab=='profile'">
         <div class="tab-pane fade in active" id="tab1">
           <div class="row">
-              <div class="col-sm-12"><button class="btn btn-primary">Edit</button></div>
+              <div class="col-sm-12"><button class="btn btn-primary" ng-click="prfCtrl.displayTab('editprofile')">Edit</button></div>
           </div>
           <div class="table responsive">
              <table>
@@ -49,6 +50,34 @@
 
 
           </div>
+        </div>
+      </div>
+      <div class="tab-content" ng-show="tab=='editprofile'">
+        <div class="tab-pane fade in active" id="tab1">
+          <form novalidate ng-submit="prfCtrl.editProfile()" class="form">
+            <div class="form-group">   
+            <label>First Name</label>                 
+            <input type="text" ng-model="currentUser.firstName" ng-value="currentUser.firstName" class="form-control">
+            </div>
+            <div class="form-group">   
+            <label>Last Name</label>                 
+            <input type="text" ng-model="currentUser.lastName" ng-value="currentUser.lastName" class="form-control">
+            </div>
+            <div class="form-group">   
+            <label>Email</label>                 
+            <input type="email" ng-model="currentUser.email" ng-value="currentUser.email" class="form-control">
+            </div>
+            
+            <div class="form-group">   
+            <label>Mobile Number</label>                 
+            <input type="text" ng-model="currentUser.mobile" ng-value="currentUser.mobile" class="form-control">
+            </div>
+            <div class="form-group">   
+            <label>User Name</label>                 
+            <input type="text" ng-model="currentUser.userName" ng-value="currentUser.userName" class="form-control">
+            </div>
+            <input type="submit" value="save" class"btn btn-success">
+        </form>
         </div>
       </div>
       <div class="tab-content" ng-show="tab=='aboutus'">
@@ -68,3 +97,19 @@
             
     
 </div>
+
+
+<!--<script>
+$(document).ready(function()
+{
+    $(".proImg").mouseover(function()
+    {
+        $(".changeimage").css("display","");
+    })
+    $(".proImg").mouseleave(function()
+    {
+        $(".changeimage").css("display","none");
+    })
+})
+    
+</script>-->
