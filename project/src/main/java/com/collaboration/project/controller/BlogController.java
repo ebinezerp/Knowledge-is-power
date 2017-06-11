@@ -34,7 +34,7 @@ public class BlogController {
 	UsersDao usersDao;
 	@Autowired
 	MailServices mailServices;
-	
+	// this method is to get blog with id
 	@RequestMapping("/blog/{id}")
 	public ResponseEntity<Map<String, String>> saveBlog(@RequestBody @Valid Blog blog,BindingResult result,@PathVariable Integer id)
 	{

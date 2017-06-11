@@ -4,6 +4,8 @@ ProfileModule.controller('ProfileController',function(ProfileServices,$cookieSto
     var prfCtrl=this;
     $rootScope.currentUser=$cookieStore.get('currentUser');
     prfCtrl.message='this is profile controller';
+    prfCtrl.imageform=false;
+    prfCtrl.image={};
     $scope.tab='profile'
     this.displayTab=function(tabvalue)
     {
@@ -12,13 +14,10 @@ ProfileModule.controller('ProfileController',function(ProfileServices,$cookieSto
     }
 
 
-    this.profilePic=function()
+    this.imageUpload=function()
     {
-        var stdId=$rootScope.currentUser.userId;
-        ProfileServices.profilePic(stdId).this
-        {
-
-        }
+        prfCtrl.image.name=$rootScope.currentUser.userId;
+        console.log(prfCtrl.image);
 
     }
 
@@ -39,13 +38,12 @@ ProfileModule.controller('ProfileController',function(ProfileServices,$cookieSto
             }
         )
     }
-})
-
-this.changeImage=function()
-{
     
-}
-
+    this.changeImage=function()
+    {
+         prfCtrl.imageform=true;
+    }
+})
 
 ProfileModule.directive('errSrc', function() {
   return {
