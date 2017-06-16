@@ -2,12 +2,9 @@ package com.collaboration.project.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Writer;
-import java.sql.Clob;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,19 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.result.Output;
-import org.hibernate.type.ClobType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,14 +30,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.collaboration.project.dao.JobDao;
 import com.collaboration.project.dao.UsersDao;
-import com.collaboration.project.model.Friends;
 import com.collaboration.project.model.Job;
 import com.collaboration.project.model.MyError;
 import com.collaboration.project.model.Users;
 import com.collaboration.project.service.MailServices;
-
-import oracle.jdbc.OracleConnection;
-import oracle.sql.CLOB;
 
 @RestController
 public class TestController {

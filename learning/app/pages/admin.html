@@ -7,7 +7,7 @@
     <ul class="nav navbar-nav">
         <li ng-click="adminCtrl.menu('jobs')"><a href="">JOBS</a></li>
         <li ng-click="adminCtrl.menu('blogs')"><a href="">BLOGS</a></li>
-       
+        <li ng-click="adminCtrl.menu('fourm')"><a href="">FOURM</a></li>
        
              
     </ul>
@@ -31,6 +31,15 @@
 <div>
    
     <div ng-include="'./app/pages/admin/blog.html'"></div>
+
+</div>
+
+
+</div>
+<div ng-show="adminCtrl.menuItem=='fourm'">
+<div>
+   
+    <div ng-include="'./app/pages/admin/fourm.html'"></div>
 
 </div>
 </div>

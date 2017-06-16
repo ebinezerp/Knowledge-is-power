@@ -58,6 +58,8 @@ public class Users implements Serializable{
 	
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="friend",fetch=FetchType.EAGER)
 	private List<Friends> friends;
+	@OneToMany()
+	private List<Fourm> fourm;
 
 	public List<Friends> getFriends() {
 		return friends;

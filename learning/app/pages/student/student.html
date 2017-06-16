@@ -7,6 +7,7 @@
       <li ng-click="stdCtrl.view('jobsdiv')"><H4><img src="./images/MSB_Icon_Job_green.png">JOBS</H4></li>
       <li ng-click="stdCtrl.view('chatdiv')"><h4>Chat</h4></li>
       <li ng-click="stdCtrl.view('friendsdiv')"><h4>Friends</h4></li>
+      <li ng-click="stdCtrl.view('fourmdiv')"><h4>Fourm</h4></li>
   </ul>
 </div>
 <div class="col-sm-10" >
@@ -46,6 +47,13 @@
     <div ng-show="stdCtrl.tab=='friendsdiv'" ng-if="stdCtrl.tab=='friendsdiv'" ng-controller="FriendController as frndCtrl">
 
         <div ng-include="'./app/pages/student/friends.html'"></div>
+
+    </div>
+
+
+    <div ng-show="stdCtrl.tab=='fourmdiv'" ng-if="stdCtrl.tab=='fourmdiv'" ng-controller="FourmController as fourmCtrl">
+
+        <div ng-include="'./app/pages/student/fourm.html'"></div>
 
     </div>
 </div>

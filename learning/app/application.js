@@ -12,6 +12,7 @@ var app=angular.module('Learning',[
     'CommentsModule',
     'FriendModule',
     'ChatModule',
+    'FourmModule',
     'angularUtils.directives.dirPagination'
     
 ]);

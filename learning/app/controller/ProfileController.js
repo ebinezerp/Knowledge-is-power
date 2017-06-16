@@ -1,10 +1,12 @@
 var ProfileModule=angular.module('ProfileModule',[]);
 
-ProfileModule.controller('ProfileController',function(ProfileServices,$cookieStore,$rootScope,$scope){
+ProfileModule.controller('ProfileController',function(ProfileServices,$cookieStore,$rootScope,$scope,$route,$location){
     var prfCtrl=this;
     $rootScope.currentUser=$cookieStore.get('currentUser');
     prfCtrl.message='this is profile controller';
     prfCtrl.imageform=false;
+    alert("hello");
+    $rootScope.imageUrl="http://localhost:8090/project/profile/"+$rootScope.currentUser.userId+".jpg";
     prfCtrl.image={};
     $scope.tab='profile'
     this.displayTab=function(tabvalue)
@@ -18,6 +20,24 @@ ProfileModule.controller('ProfileController',function(ProfileServices,$cookieSto
     {
         prfCtrl.image.name=$rootScope.currentUser.userId;
         console.log(prfCtrl.image);
+       var resultimage= prfCtrl.post(prfCtrl.image);
+
+        ProfileServices.imageUpload(resultimage).then
+        (
+            function(response)
+            {
+                console.log(response);
+                console.log(response.status=='200')
+                if(response.status=='200')
+                {
+                   $route.reload();
+                }
+            },
+            function(error)
+            {
+                console.log(error);
+            }
+        )
 
     }
 
@@ -43,6 +63,21 @@ ProfileModule.controller('ProfileController',function(ProfileServices,$cookieSto
     {
          prfCtrl.imageform=true;
     }
+
+
+    this.post=function(data)
+	{
+		
+		 
+		var fd=new FormData();
+		for(var key in data)
+		{
+			
+			fd.append(key, data[key]);
+		}
+		
+		return fd;
+	}
 })
 
 ProfileModule.directive('errSrc', function() {
