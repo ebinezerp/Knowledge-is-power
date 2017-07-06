@@ -7,13 +7,13 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
     this.allUsers={}
     frndCtrl.friendShip={};
     frndCtrl.currentUser=$cookieStore.get("currentUser");
-    this.allUsersfun=function()
+    this.suggestedFriends=function(userId)
     {
-         FriendServices.allUsersfun().then
+         FriendServices.suggestedFriends(userId).then
          (
              function(success)
              {
-                 console.log(success);
+                 console.log("suggested friends::::"+success);
                  $cookieStore.put('allUsers',success.data);
                  frndCtrl.allUsers=success.data;
 
@@ -31,7 +31,7 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
 
             function(response)
             {
-                console.log(response);
+                console.log("friends:::::"+response);
                 frndCtrl.friends=response.data;
 
             },
@@ -42,8 +42,24 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
         )
      }
 
-    this.allUsersfun();
+     this.getFriendRequests=function()
+     {
+          FriendServices.getFriendRequests(frndCtrl.currentUser.userId).then(
+              function(response)
+              {
+                  console.log("friends Requests:::::::::::::::"+response.data);
+                  frndRequests=response.data;
+              },
+              function(error)
+              {
+                  console.log(error);
+              }
+          )
+     }
+
+    this.suggestedFriends(frndCtrl.currentUser.userId);
     this.getFriends();
+    this.getFriendRequests();
 
     this.addFriend=function(friendid)
     {
@@ -57,8 +73,8 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
                frndCtrl.friend=value;
            }
        });
-       frndCtrl.friendShip.user=frndCtrl.currentUser;
-       frndCtrl.friendShip.friend=frndCtrl.friend;
+       frndCtrl.friendShip.userId=frndCtrl.currentUser.userId;
+       frndCtrl.friendShip.friendId=friendid;
        FriendServices.addFriend(frndCtrl.friendShip).then(
 
            function(response)

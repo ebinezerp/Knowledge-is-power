@@ -9,7 +9,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-@Entity
+
 public class FourmPost {
 
 	@Id

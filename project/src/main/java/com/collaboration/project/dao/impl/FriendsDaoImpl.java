@@ -2,6 +2,8 @@ package com.collaboration.project.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.collaboration.project.dao.FriendsDao;
 import com.collaboration.project.model.Friends;
+import com.collaboration.project.model.Users;
 @Repository("friendsDao")
 @Transactional
 public class FriendsDaoImpl implements FriendsDao{
@@ -46,11 +49,47 @@ public class FriendsDaoImpl implements FriendsDao{
 	public List<Friends> getFriends(Integer id) {
 		// TODO Auto-generated method stub
 		try {
-		return	sessionFactory.getCurrentSession().createQuery("from Friends where user_userid=:id",Friends.class).setParameter("id", id).getResultList();
+		return	sessionFactory.getCurrentSession().createQuery("from Friends where userid=:id",Friends.class).setParameter("id", id).getResultList();
 		} catch (Exception e) {
 			// TODO: handle exception
 			return null;
 		}
+	}
+
+	@Override
+	public List<Users> suggestFriends(Integer id) {
+		// TODO Auto-generated method stub
+		try {
+			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery("select * from Users where userId in (select userId from Users where userId!=? minus (select userId from Friends where friendId=?"
+					+ "union select userId from Friends where userId=?"
+					+ "))");
+			query.setInteger(0, id);
+			query.setInteger(1, id);
+			query.setInteger(2, id);
+			query.addEntity(Users.class);
+			return (List<Users>)query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		
+	}
+	
+	
+	public List<Friends> getPendingReqs(Integer userId) {
+		try{
+			System.out.println("friendsDaouserid:::::::"+userId);
+
+		return sessionFactory.getCurrentSession().createQuery("from Friends where friendId=:id and status=:status",Friends.class).setParameter("id", userId).
+	setParameter("status","pending" ).getResultList();
+	
+	
+		
+		}catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		
 	}
 
 }

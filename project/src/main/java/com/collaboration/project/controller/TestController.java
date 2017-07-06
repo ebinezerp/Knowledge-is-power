@@ -52,10 +52,7 @@ public class TestController {
 	public ResponseEntity<List<Users>> getAllusers()
 	{
 		List<Users> users=usersDao.getAll();
-		for(Users user:users)
-		{
-			System.out.println("size of the friends list"+user.getFriends().size());
-		}
+		
 		return new ResponseEntity<List<Users>>(users,HttpStatus.OK);
 	}
 	

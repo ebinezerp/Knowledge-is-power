@@ -1,9 +1,9 @@
 FriendModule.service('FriendServices',function($http,$q,REST_URI)
 {
-    this.allUsersfun=function()
+    this.suggestedFriends=function(userId)
     {
         var deffered=$q.defer();
-        $http.get(REST_URI+"allusers").then
+        $http.get(REST_URI+"suggestedFriends/"+userId).then
         (
             function(success)
             {
@@ -20,6 +20,24 @@ FriendModule.service('FriendServices',function($http,$q,REST_URI)
        
     }
  
+    this.getFriendRequests=function(userId)
+    {
+        var deffered=$q.defer();
+        $http.post(REST_URI+"/getFriendrequests",userId).then(
+            function(response)
+            {
+                console.log(response);
+                deffered.resolve(response);
+            },
+            function(error)
+            {
+                console.log(error);
+                deffered.reject(error);
+            }
+        )
+
+        return deffered.promise;
+    }
 
     this.getFriends=function(user)
     {
@@ -40,6 +58,8 @@ FriendModule.service('FriendServices',function($http,$q,REST_URI)
     }
     this.addFriend=function(friendShip)
     {
+        console.log("friend id  "+friendShip.friendId);
+        console.log("user id  "+friendShip.userId);
         var deffered=$q.defer();
         $http.post(REST_URI+"addfriend",friendShip).then
         (

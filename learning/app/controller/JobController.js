@@ -9,8 +9,15 @@ JobModule.controller('JobController',function(multipartFile,$location,$rootScope
     {
         alert('hello new job');
        $rootScope.newjob=true;
+	    $rootScope.alljobsdiv=false;
     }
 
+    this.allBlogs=function()
+	{
+		$rootScope.newjob=false;
+	    $rootScope.alljobsdiv=true;
+
+	}
    multipartFile.alljobs().then(
 	   function(response)
 	   {

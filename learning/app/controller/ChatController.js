@@ -31,7 +31,7 @@ ChatModule.factory('chatFactory', ['$http', '$q',
     }; 
 
     service.RECONNECT_TIMEOUT = 30000;
-    service.SOCKET_URL = "http://localhost:8090/project/chat";
+    service.SOCKET_URL = "http://localhost:8084/project/chat";
     service.CHAT_TOPIC = "/topic/message";
     service.CHAT_BROKER = "/app/chat";
 

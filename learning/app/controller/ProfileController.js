@@ -6,7 +6,7 @@ ProfileModule.controller('ProfileController',function(ProfileServices,$cookieSto
     prfCtrl.message='this is profile controller';
     prfCtrl.imageform=false;
     alert("hello");
-    $rootScope.imageUrl="http://localhost:8090/project/profile/"+$rootScope.currentUser.userId+".jpg";
+    $rootScope.imageUrl="http://localhost:8084/project/profile/"+$rootScope.currentUser.userId+".jpg";
     prfCtrl.image={};
     $scope.tab='profile'
     this.displayTab=function(tabvalue)
