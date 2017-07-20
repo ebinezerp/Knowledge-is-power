@@ -75,4 +75,22 @@ FriendModule.service('FriendServices',function($http,$q,REST_URI)
         )
         return deffered.promise;
     }
+
+    this.updateStatus=function(friendId,userId,status)
+    {
+        var deffered=$q.defer();
+        $http.post(REST_URI+'updateStatus/'+friendId+'/'+userId,status).then(
+            function(response)
+            {
+                console.log(response);
+                deffered.resolve(response);
+            },
+            function(error)
+            {
+                console.log(error);
+                deffered.reject(error);
+            }
+        )
+        return deffered.promise;
+    }
 })

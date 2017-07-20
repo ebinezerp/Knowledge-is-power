@@ -13,5 +13,6 @@ public interface FriendsDao {
 	List<Friends> getFriends(Integer id); 
 	List<Users> suggestFriends(Integer id);
 	public List<Friends> getPendingReqs(Integer userId);
+	public Friends getFriend(Integer friendId,Integer userId);
 	
 }

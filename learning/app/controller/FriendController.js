@@ -4,6 +4,7 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
 {
     this.message="this is friend controller";
   var  frndCtrl=this;
+   this.tab='suggested'
     this.allUsers={}
     frndCtrl.friendShip={};
     frndCtrl.currentUser=$cookieStore.get("currentUser");
@@ -48,7 +49,7 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
               function(response)
               {
                   console.log("friends Requests:::::::::::::::"+response.data);
-                  frndRequests=response.data;
+                  frndCtrl.frndRequests=response.data;
               },
               function(error)
               {
@@ -86,5 +87,32 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
            }
        )
        
+    }
+
+    this.selectTab=function(tabvalue)
+    {
+        frndCtrl.tab=tabvalue;
+    }
+
+    this.updateStat=function(id,status)
+    {
+        
+    }
+
+    this.updateStatus=function(friendId,status)
+    {
+        console.log(friendId+"   "+status);
+
+        FriendServices.updateStatus(frndCtrl.currentUser.userId,friendId,status).then(
+            function(response)
+            {
+                console.log(response);
+                frndCtrl.frndRequests=response.data;
+            },
+            function(error)
+            {
+                console.log(error);
+            }
+        )
     }
 })

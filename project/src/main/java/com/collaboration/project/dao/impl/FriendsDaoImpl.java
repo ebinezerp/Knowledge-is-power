@@ -91,5 +91,17 @@ public class FriendsDaoImpl implements FriendsDao{
 		}
 		
 	}
+	
+	
+	public Friends getFriend(Integer friendId,Integer userId)
+	{
+		try {
+			return sessionFactory.getCurrentSession().createQuery("from Friends where friendId=:frndId and userId=:userId",Friends.class).setParameter("frndId", friendId)
+			.setParameter("userId", userId).getSingleResult();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
 
 }

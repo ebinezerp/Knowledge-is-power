@@ -43,13 +43,7 @@ public class FriendController {
      }
      
      
-     @RequestMapping("/updatefriend")
-     public ResponseEntity<Friends> update(@RequestBody Friends friends)
-     {
-    	 friends.setStatus("approved");
-    	 friendsDao.updateFriend(friends);
-    	 return new ResponseEntity<Friends>(friends,HttpStatus.ACCEPTED);
-     }
+    
      
      
      @PostMapping("/getfriends")
@@ -86,5 +80,19 @@ public class FriendController {
     		users.add(usersDao.getUser(friend.getFriendId()));
     	 }
     	 return new ResponseEntity<List<Users>>(users,HttpStatus.OK);
+     }
+     
+     
+     @PostMapping("/updateStatus/{friendId}/{userId}")
+     public ResponseEntity<List<Friends>> updateStatus(@RequestBody String status,@PathVariable("friendId") Integer friendId,@PathVariable("userId")Integer userId)
+     {
+    	 System.out.println(friendId+"    "+userId);
+    	  Friends frnd=   friendsDao.getFriend(friendId, userId);
+    	  System.out.println("thid is friend object  "+frnd);
+    	  frnd.setStatus("accepted");
+    	  friendsDao.updateFriend(frnd);
+    	  
+    	  
+    	 return new ResponseEntity<List<Friends>>(friendsDao.getFriends(userId), HttpStatus.OK);
      }
 }
