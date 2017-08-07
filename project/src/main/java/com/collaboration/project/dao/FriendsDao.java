@@ -16,3 +16,4 @@ public interface FriendsDao {
 	public Friends getFriend(Integer friendId,Integer userId);
 	
 }
+

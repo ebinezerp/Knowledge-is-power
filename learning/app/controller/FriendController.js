@@ -10,11 +10,13 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
     frndCtrl.currentUser=$cookieStore.get("currentUser");
     this.suggestedFriends=function(userId)
     {
+    	 console.log(userId);
          FriendServices.suggestedFriends(userId).then
          (
              function(success)
              {
                  console.log("suggested friends::::"+success);
+                 
                  $cookieStore.put('allUsers',success.data);
                  frndCtrl.allUsers=success.data;
 
@@ -64,7 +66,8 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
 
     this.addFriend=function(friendid)
     {
-        alert(friendid);
+        alert("fid"+friendid);
+       alert("uid"+ frndCtrl.currentUser.userId)
        
        angular.forEach(frndCtrl.allUsers,function(value,key)
        {
@@ -76,11 +79,17 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
        });
        frndCtrl.friendShip.userId=frndCtrl.currentUser.userId;
        frndCtrl.friendShip.friendId=friendid;
+       
+       console.log("friendship object"+frndCtrl.friendShip);
+       
        FriendServices.addFriend(frndCtrl.friendShip).then(
 
            function(response)
            {
                console.log(response);
+               frndCtrl.allUsers=response.data;
+               frndCtrl.suggestedFriends(frndCtrl.currentUser.userId);
+               
            },function(error)
            {
                console.log(error);
@@ -94,10 +103,7 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
         frndCtrl.tab=tabvalue;
     }
 
-    this.updateStat=function(id,status)
-    {
-        
-    }
+   
 
     this.updateStatus=function(friendId,status)
     {
@@ -108,6 +114,9 @@ FriendModule.controller('FriendController',function(FriendServices,$rootScope,$c
             {
                 console.log(response);
                 frndCtrl.frndRequests=response.data;
+                frndCtrl.getFriends();
+                frndCtrl.getFriendRequests();
+                
             },
             function(error)
             {

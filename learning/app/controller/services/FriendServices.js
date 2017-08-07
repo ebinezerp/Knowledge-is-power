@@ -23,7 +23,7 @@ FriendModule.service('FriendServices',function($http,$q,REST_URI)
     this.getFriendRequests=function(userId)
     {
         var deffered=$q.defer();
-        $http.post(REST_URI+"/getFriendrequests",userId).then(
+        $http.post(REST_URI+"getFriendrequests",userId).then(
             function(response)
             {
                 console.log(response);

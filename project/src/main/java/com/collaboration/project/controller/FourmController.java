@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +33,12 @@ public class FourmController {
 	public ResponseEntity<List<Fourm>> getAllFourms()
 	{
 		return new ResponseEntity<List<Fourm>>(fourmDao.getAllFourms(),HttpStatus.OK);
+	}
+	
+	
+	@GetMapping("/getFourm/{fourmId}")
+	public ResponseEntity<Fourm> getFourm(@PathVariable Integer fourmId)
+	{
+		return new ResponseEntity<Fourm>(fourmDao.getFourm(fourmId), HttpStatus.OK);
 	}
 }

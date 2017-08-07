@@ -10,5 +10,7 @@ public interface FourmDao {
 	
 	List<Fourm> getAllFourms();
 	
+	Fourm getFourm(Integer fourmId);
+	
 
 }

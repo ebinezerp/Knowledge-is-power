@@ -41,4 +41,17 @@ public class FourmDaoImpl implements FourmDao {
 		}
 	}
 
+	@Override
+	public Fourm getFourm(Integer fourmId) {
+		// TODO Auto-generated method stub
+		try {
+			return sessionFactory.getCurrentSession().createQuery("From Fourm where fourmId=:fourmid",Fourm.class)
+					.setParameter("fourmid", fourmId).getSingleResult();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+			return null;
+		}
+	}
+
 }

@@ -47,9 +47,14 @@ public class FriendsDaoImpl implements FriendsDao{
 
 	@Override
 	public List<Friends> getFriends(Integer id) {
+		System.out.println("this is friends dao impl:userid is"+id);
 		// TODO Auto-generated method stub
 		try {
-		return	sessionFactory.getCurrentSession().createQuery("from Friends where userid=:id",Friends.class).setParameter("id", id).getResultList();
+		return	sessionFactory.getCurrentSession().createQuery("from Friends where userId=:uid or friendId=:id",Friends.class)
+				.setParameter("uid", id)
+				.setParameter("id", id)
+				.getResultList();
+		
 		} catch (Exception e) {
 			// TODO: handle exception
 			return null;
@@ -60,14 +65,15 @@ public class FriendsDaoImpl implements FriendsDao{
 	public List<Users> suggestFriends(Integer id) {
 		// TODO Auto-generated method stub
 		try {
-			SQLQuery query= sessionFactory.getCurrentSession().createSQLQuery("select * from Users where userId in (select userId from Users where userId!=? minus (select userId from Friends where friendId=?"
-					+ "union select userId from Friends where userId=?"
-					+ "))");
-			query.setInteger(0, id);
-			query.setInteger(1, id);
-			query.setInteger(2, id);
-			query.addEntity(Users.class);
-			return (List<Users>)query.list();
+		return	(List<Users>)sessionFactory.getCurrentSession().createSQLQuery("select * from Users where userId not in ((select friendid from Friends where userid=? or friendid=?) union (select userid from Friends where userid=? or friendid=?))")
+				.addEntity(Users.class)
+			.setInteger(0, id)
+			.setInteger(1, id)
+			.setInteger(2, id)
+			.setInteger(3, id).getResultList();
+			
+			
+			 
 		} catch (Exception e) {
 			// TODO: handle exception
 			return null;
@@ -91,17 +97,18 @@ public class FriendsDaoImpl implements FriendsDao{
 		}
 		
 	}
-	
-	
-	public Friends getFriend(Integer friendId,Integer userId)
-	{
-		try {
-			return sessionFactory.getCurrentSession().createQuery("from Friends where friendId=:frndId and userId=:userId",Friends.class).setParameter("frndId", friendId)
-			.setParameter("userId", userId).getSingleResult();
-		} catch (Exception e) {
-			// TODO: handle exception
-			return null;
-		}
-	}
 
-}
+	
+	
+		public Friends getFriend(Integer friendId,Integer userId)
+		{
+			try {
+				return sessionFactory.getCurrentSession().createQuery("from Friends where friendId=:frndId and userId=:userId",Friends.class).setParameter("frndId", friendId)
+				.setParameter("userId", userId).getSingleResult();
+			} catch (Exception e) {
+				// TODO: handle exception
+				return null;
+			}
+		}
+
+	}

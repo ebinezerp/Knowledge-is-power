@@ -1,7 +1,10 @@
 package com.collaboration.project.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.mail.search.IntegerComparisonTerm;
 
@@ -30,30 +33,48 @@ public class FriendController {
 	UsersDao usersDao;
 	
      @PostMapping("/addfriend")
-     public ResponseEntity<Friends> addFriend(@RequestBody Friends friends)
+     public ResponseEntity<List<Users>> addFriend(@RequestBody Friends friends)
      {
     	  System.out.println("firend id :::::::::::"+friends.getFriendId());
     	   friends.setStatus("pending");
     	   friendsDao.addFriend(friends);
-    	   
-    	   
-    	   
-    	   return new ResponseEntity<Friends>(friends,HttpStatus.OK);
+    	   List users= friendsDao.suggestFriends(friends.getUserId());
+    	     
+      	 return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
     	   
      }
      
      
-    
+     @RequestMapping("/updatefriend/{fid}/{uid}")
+     public ResponseEntity<List<Friends>> update(@RequestBody String status,@PathVariable("fid") Integer fid,@PathVariable("uid") Integer uid )
+     {
+    	 Friends friend=friendsDao.getFriend(fid, uid);
+    	 friend.setStatus("approved");
+    	 friendsDao.updateFriend(friend);
+    	 List<Friends> friends=friendsDao.getFriends(uid);
+    	 return new ResponseEntity<List<Friends>>(friends,HttpStatus.ACCEPTED);
+     }
      
      
      @PostMapping("/getfriends")
-     public ResponseEntity<List<Friends>> getFriends(@RequestBody Users user)
+     public ResponseEntity<Collection<Users>> getFriends(@RequestBody Users user)
      {
     	 System.out.println(user.getUserId());
     	List<Friends> friends= friendsDao.getFriends(user.getUserId());
-    	 System.out.println("firends list"+friends);
+    	Set<Users> friendList=new HashSet();
+    	for(Friends f:friends)
+    	{
+    		Users fuser=usersDao.getUser(f.getFriendId());
+    		friendList.add(fuser);
+    	}
+    	for(Friends f:friends)
+    	{
+    		Users fuser=usersDao.getUser(f.getUserId());
+    		friendList.add(fuser);
+    	}
+    	 System.out.println("firends list"+friendList);
     	 
-    	return new ResponseEntity<List<Friends>>(friends, HttpStatus.OK) ;
+    	return new ResponseEntity<Collection<Users>>(friendList, HttpStatus.OK) ;
      }
      
      
@@ -61,7 +82,7 @@ public class FriendController {
      public ResponseEntity<List<Users>> suggestedFriends(@PathVariable("id") Integer id)
      {
     	 System.out.println("user Id for suggestedFriends:::::"+id);
-    	List users= friendsDao.suggestFriends(id);
+    	List<Users> users= friendsDao.suggestFriends(id);
      
     	 return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
      }
@@ -77,22 +98,21 @@ public class FriendController {
     	 {
     		 System.out.println(i+"\n");
     		 i++;
-    		users.add(usersDao.getUser(friend.getFriendId()));
+    		users.add(usersDao.getUser(friend.getUserId()));
     	 }
     	 return new ResponseEntity<List<Users>>(users,HttpStatus.OK);
      }
-     
-     
-     @PostMapping("/updateStatus/{friendId}/{userId}")
-     public ResponseEntity<List<Friends>> updateStatus(@RequestBody String status,@PathVariable("friendId") Integer friendId,@PathVariable("userId")Integer userId)
-     {
-    	 System.out.println(friendId+"    "+userId);
-    	  Friends frnd=   friendsDao.getFriend(friendId, userId);
-    	  System.out.println("thid is friend object  "+frnd);
-    	  frnd.setStatus("accepted");
-    	  friendsDao.updateFriend(frnd);
-    	  
-    	  
-    	 return new ResponseEntity<List<Friends>>(friendsDao.getFriends(userId), HttpStatus.OK);
-     }
+
+@PostMapping("/updateStatus/{friendId}/{userId}")
+public ResponseEntity<List<Friends>> updateStatus(@RequestBody String status,@PathVariable("friendId") Integer friendId,@PathVariable("userId")Integer userId)
+{
+	 System.out.println(friendId+"    "+userId);
+	  Friends frnd=   friendsDao.getFriend(friendId, userId);
+	  System.out.println("thid is friend object  "+frnd);
+	  frnd.setStatus("accepted");
+	  friendsDao.updateFriend(frnd);
+	  
+	  
+	 return new ResponseEntity<List<Friends>>(friendsDao.getFriends(userId), HttpStatus.OK);
+}
 }
