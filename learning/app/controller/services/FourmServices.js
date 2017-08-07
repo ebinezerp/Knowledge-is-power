@@ -38,4 +38,23 @@ FourmModule.service('FourmServices',function($http,$q,REST_URI){
         return deffered.promise;
     }
 
+    this.getFourm=function(fourmId)
+    {
+        var deffered=$q.defer();
+        $http.get(REST_URI+'getFourm/'+fourmId).then
+        (
+            function(success)
+            {
+                console.log(success);
+                deffered.resolve(success);
+            },
+            function(error)
+            {
+                console.log(error);
+                deffered.reject(error);
+            }
+        )
+        return deffered.promise;
+    }
+
 })

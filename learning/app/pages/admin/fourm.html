@@ -1,18 +1,24 @@
 <div ng-controller="FourmController as fourmCtrl">
 
-<div ng-show="fourmCtrl.allFourmsDiv==true">
+<div ng-show="fourmCtrl.fourmTab=='allfourmsdiv'">
     <button class="btn btn-info" ng-click="fourmCtrl.newFourm()">New Fourm</button>
 
      <div ng-repeat="fourm in fourmCtrl.allFourms" >
          <div style="background-color: darkcyan;border-radius: 5px;padding:8px">
         <a href style="color:white;"> 
-            <h4>{{fourm.fourmName}}</h4>
-         <p>{{fourm.fourmDescription}}</p>
+            <h4 ng-click="fourmCtrl.getFourm(fourm.fourmId)">{{fourm.fourmName}}</h4>
+         
         </a>
      </div>
 <br>
        </div>
 
+</div>
+
+<div ng-show="fourmCtrl.fourmTab=='forumdiv'">
+    <button class="btn btn-info" ng-click="fourmCtrl.allFourmDiv()">All Fourms</button>
+   <h6>{{fourmCtrl.pfourm.fourmName}}</h6>
+   <p>{{fourmCtrl.pfourm.formDesc}}</p>
 </div>
 
 <div ng-show="fourmCtrl.newFourmDiv==true">
@@ -26,7 +32,7 @@
        </div>
         <div class="form-group">
            <label>Post</label>
-           <textarea name="fourmDescription" ng-model="fourmCtrl.fourm.fourmDescription" class="form-control" ></textarea>
+           <textarea name="fourmDesc" ng-model="fourmCtrl.fourm.formDesc" class="form-control" ></textarea>
                
        </div>
        <input type="submit" value="Submit" class="btn btn-primary">

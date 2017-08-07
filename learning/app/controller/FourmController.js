@@ -3,17 +3,17 @@ var FourmModule=angular.module('FourmModule',[]);
 FourmModule.controller('FourmController',function(FourmServices)
 {
    var fourmCtrl=this;
-   this.allFourmsDiv=true;
+   this.fourmTab='allfourmsdiv'
    this.newFourmDiv=false;
    this.allFourmDiv=function()
    {
-     fourmCtrl.allFourmsDiv=true;
+     this.fourmTab='allfourmsdiv'
      fourmCtrl.newFourmDiv=false;
    }
    this.newFourm=function()
    {
        fourmCtrl.newFourmDiv=true;
-       fourmCtrl.allFourmsDiv=false;
+       this.fourmTab=''
    }
 
     this.fourm={}
@@ -25,7 +25,7 @@ FourmModule.controller('FourmController',function(FourmServices)
           function(response)
           {
             console.log(response);
-            fourmCtrl.allFourmsDiv=true;
+            this.fourmTab='allfourmsdiv'
             fourmCtrl.newFourmDiv=false;
             fourmCtrl.allFourms=response.data;
           },function(error)
@@ -54,4 +54,23 @@ FourmModule.controller('FourmController',function(FourmServices)
 
 
    this.allFourmsFun();
+
+
+   this.getFourm=function(fourmId)
+   {
+     fourmCtrl.fourmTab='forumdiv'
+
+     FourmServices.getFourm(fourmId).then
+     (
+       function(success)
+       {
+         fourmCtrl.pfourm=success.data;
+
+       },
+        function(error)
+        {
+          console.log(error);
+        }
+     )
+   }
 })

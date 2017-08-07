@@ -44,7 +44,7 @@ app.controller('HomeController',function($scope,$cookies,$route,$rootScope,$loca
 
 });
 
-app.constant('REST_URI','http://localhost:8084/project/');
+app.constant('REST_URI','http://localhost:8090/project/');
 app.config(function($routeProvider,$stateProvider){
 $routeProvider.when("/home",{
     templateUrl:'./app/pages/home.html',

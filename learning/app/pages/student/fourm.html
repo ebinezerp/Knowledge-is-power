@@ -1,4 +1,13 @@
 <div ng-controller="FourmController as fourmCtrl">
 
-    {{fourmCtrl.message}}
+       <div class="allfourms">
+
+        <ul style="list-style-type: none">
+            <li ng-repeat="fourm in fourmCtrl.allFourms">
+                <h4>{{fourm.fourmName}}</h4>
+                <p>{{fourm.formDesc}}</p>
+            </li>
+        </ul>
+
+       </div>
 </div>
