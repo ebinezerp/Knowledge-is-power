@@ -41,4 +41,10 @@ public class FourmController {
 	{
 		return new ResponseEntity<Fourm>(fourmDao.getFourm(fourmId), HttpStatus.OK);
 	}
+	
+	@GetMapping("/getPermission/{fourmId}/{userId}")
+	public ResponseEntity<Boolean> getPermission(@PathVariable("fourmId") Integer fourmId,@PathVariable("userId") Integer userId)
+	{
+		return new ResponseEntity<Boolean>(fourmDao.getPermission(fourmId,userId),HttpStatus.ACCEPTED);
+	}
 }

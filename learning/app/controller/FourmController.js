@@ -1,10 +1,12 @@
 var FourmModule=angular.module('FourmModule',[]);
 
-FourmModule.controller('FourmController',function(FourmServices)
+FourmModule.controller('FourmController',function(FourmServices,$cookieStore)
 {
    var fourmCtrl=this;
    this.fourmTab='allfourmsdiv'
    this.newFourmDiv=false;
+  this.currentUser=$cookieStore.get('currentUser');
+
    this.allFourmDiv=function()
    {
      this.fourmTab='allfourmsdiv'
@@ -65,7 +67,28 @@ FourmModule.controller('FourmController',function(FourmServices)
        function(success)
        {
          fourmCtrl.pfourm=success.data;
+         if(fourmCtrl.currentUser.userName!='admin')
+          {
+          fourmCtrl.getPermission(fourmId,fourmCtrl.currentUser.userId)
+          }
 
+       },
+        function(error)
+        {
+          console.log(error);
+        }
+     )
+   }
+
+
+   this.getPermission=function(fourmId,userId)
+   {
+     FourmServices.getPermission(fourmId,userId).then
+     (
+       function(success)
+       {
+         console.log(success);
+         fourmCtrl.post.permission=success.data;
        },
         function(error)
         {

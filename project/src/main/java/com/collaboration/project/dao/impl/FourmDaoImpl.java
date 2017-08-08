@@ -54,4 +54,30 @@ public class FourmDaoImpl implements FourmDao {
 		}
 	}
 
+	@Override
+	public Boolean getPermission(Integer fourmId, Integer userId) {
+		// TODO Auto-generated method stub
+		try {
+		  Fourm f=	(Fourm)sessionFactory.getCurrentSession().createSQLQuery("select * from fourm where fourmId in (select fourmId from fourmrequest where fourmId=? and userId=? and status=?)")
+			.addEntity(Fourm.class)
+			.setInteger(0, fourmId)
+			.setInteger(1, userId)
+			.setString(2, "accepted")
+			.getSingleResult();
+		  if(f!=null)
+		  {
+			  return true;
+		  }
+		  else
+		  {
+			  return false;
+		  }
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e);
+			return false;
+		}
+	}
+
 }

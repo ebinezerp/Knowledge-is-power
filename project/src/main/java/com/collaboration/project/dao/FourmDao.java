@@ -11,6 +11,7 @@ public interface FourmDao {
 	List<Fourm> getAllFourms();
 	
 	Fourm getFourm(Integer fourmId);
+	Boolean getPermission(Integer fourmId,Integer userId);
 	
 
 }
